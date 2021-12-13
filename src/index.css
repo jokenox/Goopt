@@ -3,8 +3,17 @@
 @tailwind utilities;
 
 @font-face {
+  font-family: 'Roboto';
+  src: local('Roboto'), url(./fonts/Roboto/Roboto-Regular.ttf) format('truetype');
+}
+
+@font-face {
   font-family: 'Vollkorn';
   src: local('Vollkorn'), url(./fonts/Vollkorn/Vollkorn-Medium.ttf) format('truetype');
+}
+
+.font-roboto {
+  font-family: 'Roboto', sans-serif;
 }
 
 .font-vollkorn {
