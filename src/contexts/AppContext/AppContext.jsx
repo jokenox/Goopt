@@ -18,6 +18,7 @@ const AppContextProvider = ({ children }) => {
 
   return (
     <AppContext.Provider value={{
+      searchTerm,
       setSearchTerm,
       gooptSearch,
       imFeelingLucky

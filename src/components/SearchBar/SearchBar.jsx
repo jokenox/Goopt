@@ -3,7 +3,8 @@ import React, { useContext } from 'react';
 import { AppContext } from '../../contexts/AppContext/AppContext';
 
 function SearchBar({ className = '' }) {
-  const { 
+  const {
+    searchTerm,
     setSearchTerm,
     gooptSearch
   } = useContext(AppContext);
@@ -36,8 +37,9 @@ function SearchBar({ className = '' }) {
       <input
         className="w-full px-3 outline-none font-roboto"
         type="text"
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
+        value={ searchTerm }
+        onChange={ handleChange }
+        onKeyDown={ handleKeyDown }
       />
 
       <div className="flex items-center">
