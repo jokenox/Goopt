@@ -1,15 +1,42 @@
-import React, { Component } from 'react'
+import React, { useContext } from 'react';
 
-import '../index.css';
+import { AppContext } from '../contexts/AppContext/AppContext';
 
-export class Home extends Component {
-  render() {
-    return (
-      <div className="bg-indigo-500">
-        Goopt
+import Logo from '../components/Logo/Logo';
+import SearchBar from '../components/SearchBar/SearchBar';
+import Button from '../components/Button/Button';
+
+function Home() {
+  const { 
+    gooptSearch,
+    imFeelingLucky,
+  } = useContext(AppContext);
+
+  return (
+    <div className="w-full h-screen">
+      <div className="flex flex-col items-center justify-center w-full h-full space-y-7">
+        <Logo className="text-8xl"/>
+
+        <SearchBar className="w-5/12 h-12"/>
+        
+        <div className="space-x-3">
+          <Button
+            onClick={ gooptSearch }
+            className="w-max"
+          >
+            Goopt Search
+          </Button>
+
+          <Button
+            onClick={ imFeelingLucky }
+            className="w-max"
+          >
+            I'm Feeling Lucky
+          </Button>
+        </div>
       </div>
-    )
-  }
+    </div>
+  );
 }
 
 export default Home;
