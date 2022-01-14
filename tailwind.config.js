@@ -5,10 +5,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        gooblue: "#4285F4",
-        goored: "#EA4335",
-        gooyellow: "#FBBC05",
-        googreen: "#34A853",
+        goonavy: "#153648",
+        gooblue: "#259BAB",
+        goocyan: "#09B49A",
+        gooviolet: "#696CC0",
         googray: {
           text: "#4d5156",
           DEFAULT: "#9AA0A6",
