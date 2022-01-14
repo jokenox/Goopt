@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 import { AppContext } from '../../contexts/AppContext/AppContext';
 
-function SearchBar({ className = '' }) {
+function SearchBar({ className = '', autoFocus = false }) {
   const {
     searchTerm,
     setSearchTerm,
@@ -15,8 +15,14 @@ function SearchBar({ className = '' }) {
 
   const handleKeyDown = (e) => {
     if (e.keyCode === 13) {
-      gooptSearch();
+      gooptSearch(searchTerm);
     }
+  };
+
+  const clearSearchBarText = () => {
+    setSearchTerm('');
+
+    document.querySelector('input').focus();
   };
 
   return (
@@ -40,16 +46,23 @@ function SearchBar({ className = '' }) {
         value={ searchTerm }
         onChange={ handleChange }
         onKeyDown={ handleKeyDown }
+        autoFocus={ autoFocus }
       />
 
-      <div className="flex items-center">
-        <svg
-          className="w-5 h-5 text-googray"
-          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-        >
-          <path fillRule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clipRule="evenodd" />
-        </svg>
-      </div>
+      { searchTerm.length > 0 &&
+        <div className="flex items-center">
+          <button
+            onClick={ clearSearchBarText }
+          >
+            <svg
+              className="w-5 h-5 text-googray hover:text-googray-text"
+              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+            >
+              <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+            </svg>
+          </button>
+        </div>
+      }
     </div>
   );
 }
