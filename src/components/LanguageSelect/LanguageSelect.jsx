@@ -5,11 +5,11 @@ import { AppContext } from '../../contexts/AppContext/AppContext';
 function LanguageSelect() {
   const {
     language,
-    setLanguage
+    selectLanguage
   } = useContext(AppContext);
 
   const handleChange = (event) => {
-    setLanguage(event.target.value);
+    selectLanguage(event.target.value);
   };
 
   return (
