@@ -23,52 +23,66 @@ const AppContextProvider = ({ children }) => {
   };
 
   const generateArticleText = async (text) => {
+    let gptResponse;
+    
     setIsLoadingArticle(true);
 
-    const gptResponse = await openai.complete({
-      engine: 'davinci-instruct-beta-v3',
-      prompt: text.trim(),
-      maxTokens: 500,
-      temperature: 0.7,
-      topP: 1,
-      presencePenalty: 0,
-      frequencyPenalty: 2,
-      bestOf: 1,
-      n: 1,
-      stream: false
-    });
-
-    console.log(gptResponse.data.choices[0].text);
-
-    setIsLoadingArticle(false);
-
-    return gptResponse.data.choices[0].text;
+    try {
+      gptResponse = await openai.complete({
+        engine: 'davinci-instruct-beta-v3',
+        prompt: text.trim(),
+        maxTokens: 500,
+        temperature: 0.7,
+        topP: 1,
+        presencePenalty: 0,
+        frequencyPenalty: 2,
+        bestOf: 1,
+        n: 1,
+        stream: false
+      });
+  
+      console.log(gptResponse.data.choices[0].text);
+  
+      setIsLoadingArticle(false);
+  
+      return gptResponse.data.choices[0].text;
+    } catch (error) {
+      alert('There are problems accessing the API');
+      window.location.href = '/';
+    }
   };
 
   const generateResults = async (searchTerm) => {
     const query = getSearchTemplate() + searchTerm + '\n\n{';
 
+    let gptResponse;
+
     setIsLoadingResults(true);
 
-    const gptResponse = await openai.complete({
-      engine: 'davinci-instruct-beta-v3',
-      prompt: query,
-      maxTokens: 1000,
-      temperature: 1,
-      topP: 1,
-      presencePenalty: 0,
-      frequencyPenalty: 2,
-      bestOf: 1,
-      n: 1,
-      stream: false,
-      stop: ['"""']
-    });
+    try {
+      gptResponse = await openai.complete({
+        engine: 'davinci-instruct-beta-v3',
+        prompt: query,
+        maxTokens: 1000,
+        temperature: 1,
+        topP: 1,
+        presencePenalty: 0,
+        frequencyPenalty: 2,
+        bestOf: 1,
+        n: 1,
+        stream: false,
+        stop: ['"""']
+      });
 
-    console.log(gptResponse.data.choices[0].text);
+      console.log(gptResponse.data.choices[0].text);
 
-    setIsLoadingResults(false);
+      setIsLoadingResults(false);
 
-    return gptResponse.data.choices[0].text;
+      return gptResponse.data.choices[0].text;
+    } catch (error) {
+      alert('There are problems accessing the API');
+      window.location.href = '/';
+    }
   };
 
   const getResults = async (term) => {
