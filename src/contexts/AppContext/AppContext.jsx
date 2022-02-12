@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
 import OpenAI from 'openai-api';
 
@@ -16,6 +16,7 @@ const AppContextProvider = ({ children }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [isLoadingResults, setIsLoadingResults] = useState(false);
   const [isLoadingArticle, setIsLoadingArticle] = useState(false);
+  const lastResultsString = useRef('');
 
   const selectLanguage = (lang) => {
     localStorage.setItem('language', lang);
@@ -53,7 +54,9 @@ const AppContextProvider = ({ children }) => {
   };
 
   const generateResults = async (searchTerm) => {
-    const query = getSearchTemplate() + searchTerm + '\n\n{';
+    const lastResults = lastResultsString.current;
+
+    const query = getSearchTemplate() + searchTerm + '\n\n{' + lastResults;
 
     let gptResponse;
 
@@ -74,7 +77,9 @@ const AppContextProvider = ({ children }) => {
         stop: ['"""']
       });
 
-      console.log(gptResponse.data.choices[0].text);
+      //console.log(gptResponse.data.choices[0].text);
+      
+      lastResultsString.current = gptResponse.data.choices[0].text;
 
       setIsLoadingResults(false);
 
