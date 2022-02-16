@@ -1,4 +1,14 @@
-# Goopt
+<div align="center">
+  
+![](./src/assets/logo.png)
+  
+![](https://img.shields.io/github/license/jokenox/Goopt?color=blue) ![](https://img.shields.io/badge/PRs-welcome-orange)
+  
+**Search Engine** for a **Procedural Simulation** of the **Web** with **GPT-3**
+  
+</div>
+
+---
 
 > **Web 4.0** could be the propitious evolution for the **procedural web**.
 
