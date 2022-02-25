@@ -64,7 +64,7 @@ const AppContextProvider = ({ children }) => {
 
     try {
       gptResponse = await openai.complete({
-        engine: 'davinci-instruct-beta-v3',
+        engine: 'text-davinci-001',
         prompt: query,
         maxTokens: 1000,
         temperature: 1,
