@@ -1,6 +1,6 @@
 import React, { createContext, useState, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
-import OpenAI from 'openai-api';
+import { Configuration, OpenAIApi } from "openai";
 
 import formatResults from '../../utils/formatResults';
 import { SearchTemplate, ArticleTemplate } from '../../utils/templates';
@@ -9,9 +9,12 @@ const AppContext = createContext();
 
 const AppContextProvider = ({ children }) => {
   const navigate = useNavigate();
-  const openai = new OpenAI(process.env.REACT_APP_OPENAI_API_KEY);
-
-  const [language, setLanguage] = useState((localStorage.getItem('language') || 'en')); 
+  const configuration = new Configuration({
+    apiKey: process.env.REACT_APP_OPENAI_API_KEY,
+    basePath: "https://api.text-generator.io/v1",
+  });
+  const openai = new OpenAIApi(configuration);
+  const [language, setLanguage] = useState((localStorage.getItem('language') || 'en'));
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isLoadingResults, setIsLoadingResults] = useState(false);
@@ -25,12 +28,12 @@ const AppContextProvider = ({ children }) => {
 
   const generateArticleText = async (text) => {
     let gptResponse;
-    
+
     setIsLoadingArticle(true);
 
     try {
-      gptResponse = await openai.complete({
-        engine: 'text-davinci-001',
+      gptResponse = await openai.createCompletion({
+        model: 'text-davinci-001',
         prompt: text.trim(),
         maxTokens: 500,
         temperature: 0.7,
@@ -41,11 +44,11 @@ const AppContextProvider = ({ children }) => {
         n: 1,
         stream: false
       });
-  
+
       console.log(gptResponse.data.choices[0].text);
-  
+
       setIsLoadingArticle(false);
-  
+
       return gptResponse.data.choices[0].text;
     } catch (error) {
       alert('There are problems accessing the API');
@@ -63,8 +66,8 @@ const AppContextProvider = ({ children }) => {
     setIsLoadingResults(true);
 
     try {
-      gptResponse = await openai.complete({
-        engine: 'text-davinci-001',
+      gptResponse = await openai.createCompletion({
+        model: 'text-davinci-001',
         prompt: query,
         maxTokens: 1000,
         temperature: 1,
@@ -78,7 +81,7 @@ const AppContextProvider = ({ children }) => {
       });
 
       //console.log(gptResponse.data.choices[0].text);
-      
+
       lastResultsString.current = gptResponse.data.choices[0].text;
 
       setIsLoadingResults(false);
@@ -113,7 +116,7 @@ const AppContextProvider = ({ children }) => {
   const gooptSearch = (term) => {
     if (term.trim().length > 0) {
       navigate('/results?search=' + term.trim());
-    
+
       getResults(term.trim());
     }
   };
@@ -130,7 +133,7 @@ const AppContextProvider = ({ children }) => {
     switch (lang) {
       case 'en':
         return SearchTemplate.en;
-      
+
       case 'es':
         return SearchTemplate.es;
 
@@ -146,7 +149,7 @@ const AppContextProvider = ({ children }) => {
     switch (lang) {
       case 'en':
         return ArticleTemplate.en;
-      
+
       case 'es':
         return ArticleTemplate.es;
 
